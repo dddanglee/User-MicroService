@@ -8,6 +8,7 @@ import com.example.userservice.vo.Greeting;
 import com.example.userservice.vo.RequestUser;
 import com.example.userservice.vo.ResponseOrder;
 import com.example.userservice.vo.ResponseUser;
+import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -38,6 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/health_check")
+    @Timed(value="users.status", longTask = true)
     public String Status(){
 
         return "it's working. on Port "+env.getProperty("local.server.port") +
@@ -47,6 +49,7 @@ public class UserController {
 
 
     @GetMapping("/welcome")
+    @Timed(value="users.welcome", longTask = true)
     public String Welcome(){
         return env.getProperty("greeting.message");
     }
